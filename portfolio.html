@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shashank's Portfolio</title>
+    <style>
+        html {
+    scroll-behavior: smooth;
+}
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0eafc, #cfdef3);
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #1E201E, #3C3D37);
+            padding: 20px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            animation: slideDown 1s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav h1 {
+            color: #f39c12;
+            font-size: 28px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            animation: fadeIn 2s ease-out;
+            text-shadow: 2px 2px #000;
+        }
+
+        nav ul {
+            list-style: none;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: #ECDFCC;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #f39c12;
+            transform: scale(1.1);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 82px 50px;
+            text-align: center;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .section h2 {
+            font-size: 50px;
+            margin-bottom: 5px;
+            color: #f39c12;
+            animation: fadeIn 2s ease-in;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px #bdc3c7;
+        }
+
+        .section p {
+            font-size: 20px;
+            color: #555;
+            margin-bottom: 5px;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        /* Floating Animated Background */
+        .floating-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .floating-bg div {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+            pointer-events: none;
+            box-shadow: inset -2px -2px 5px rgba(0,0,0,0.2), inset 2px 2px 5px rgba(255,255,255,0.3);
+        }
+
+        .floating-bg div:nth-child(1) {
+            width: 200px;
+            height: 200px;
+            top: 10%;
+            left: 15%;
+            animation-duration: 8s;
+        }
+
+        .floating-bg div:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            top: 50%;
+            left: 75%;
+        }
+
+        .floating-bg div:nth-child(3) {
+            width: 250px;
+            height: 250px;
+            top: 80%;
+            left: 40%;
+            animation-duration: 10s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-30px) rotate(360deg);
+            }
+            100% {
+                transform: translateY(0px) rotate(720deg);
+            }
+        }
+
+        /* Skill Cards */
+        .skill-box {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            animation: slideIn 2s ease;
+            perspective: 1000px;
+        }
+
+        .skill {
+            background: linear-gradient(135deg, #b4b3af, #1a1818);
+            color: #fff;
+            padding: 40px 20px;
+            width: 150px;
+            text-align: center;
+            border-radius: 20px;
+            margin: 20px;
+            font-weight: bold;
+            font-size: 18px;
+            position: relative;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.7s ease, box-shadow 0.3s ease, background 0.3s ease;
+            transform-style: preserve-3d;
+        }
+
+        .skill::after {
+            content: attr(data-skill);
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #fff;
+            color: #383838;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            line-height: 50px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateZ(30px);
+        }
+
+        .skill:hover {
+            transform: rotateY(20deg) rotateX(10deg) translateZ(30px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, #1a1818, #b4b3af);
+        }
+
+        /* Projects Section */
+        
+        .project-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 60px 0;
+}
+	
+.project-container {
+    width: 45%; /* Adjust as needed */
+    margin: 20px;
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: height 0.5s ease-in-out;
+    background-color: rgba(0, 0, 0, 0.527);
+    border-radius: 20px;
+    cursor: pointer;
+    position: relative;
+    text-align: center;
+    flex-direction: column;
+}
+
+        
+
+	.project-container:hover {
+            height: 400px; /* Adjusted height to accommodate content */
+        }
+	
+
+        .desc {
+            color:#ECDFCC
+        }
+    
+        .project-details {
+    opacity: 0;
+    height: 0;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease-in-out, height 0.5s ease-in-out;
+}
+
+	.project {
+            width: 100%;
+		background: linear-gradient(135deg, #1E201E, #3C3D37);
+            color: #ECDFCC;
+            height: 100%;
+            display: flex;
+            border-radius: 20px;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            flex-direction: column;
+        }
+
+        .project-name {
+            font-size: 24px;
+            color: #ECDFCC;
+            padding: 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            animation: fadeIn 2s ease-out;
+            text-shadow: 2px 2px #000;
+		margin-top: 40px;
+        }
+
+	.project-container:hover .project-details {
+            opacity: 1; /* Visible on hover */
+            height: auto;
+        }
+
+	.project-details img {
+            width: 90%;   /* Adjust image width */
+            max-height: 200px; /* Ensure image height doesn't overflow */
+            object-fit: contain; /* Maintain aspect ratio */
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+	.project-details p {
+            font-size: 16px;
+            padding: 0 10px;
+            text-align: center;
+		color: #ECDFCC;
+        }
+
+        /* About Me Section */
+        .about-me {
+            background: linear-gradient(135deg, #1E201E, #3C3D37);
+            color: #ECDFCC;
+            padding: 60px 20px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            margin: 30px auto;
+            width: 80%;
+            animation: fadeInUp 2s ease-in-out;
+        }
+
+        .about-me h2 {
+            font-size: 50px;
+            margin-bottom: 5px;
+            color: #f39c12;
+            animation: fadeIn 2s ease-in;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px #bdc3c7;
+        }
+
+        .about-me p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #BDC3C7;
+        }
+
+        /* Footer Animation */
+        footer {
+            background: linear-gradient(135deg, #1E201E, #3C3D37);
+            color: #ECDFCC;
+            padding: 50px 0;
+            text-align: center;
+            animation: popUp 2s ease-in;
+            box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        footer p {
+            font-size: 20px;
+            letter-spacing: 1px;
+        }
+
+        /* Keyframes */
+        @keyframes slideIn {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes popUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            nav h1 {
+                font-size: 24px;
+            }
+
+            nav ul li {
+                display: block;
+                margin: 10px 0;
+            }
+
+            .section {
+                padding: 80px 20px;
+            }
+
+            .skill-box {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .about-me {
+                width: 90%;
+            }
+        }
+        /* Contact Section */
+.contact-section {
+    padding: 60px 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact-form {
+    width: 70%;
+    background: linear-gradient(135deg, #1E201E, #3C3D37);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+    color: #ECDFCC;
+    animation: fadeInUp 1.2s ease-out;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.contact-form:hover {
+    transform: scale(1.02);
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.3);
+}
+
+.contact-form h2 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 25px;
+    color: #f39c12;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    animation: fadeIn 1.5s ease;
+}
+
+.contact-form .form-group {
+    margin-bottom: 20px;
+}
+
+.contact-form label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    color: #333;
+    background: #ecedf0;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    outline: none;
+    transition: border 0.3s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border: 2px solid #f39c12;
+}
+
+.contact-form button {
+    width: 100%;
+    background-color: #f39c12;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.contact-form button:hover {
+    background-color: #e67e22;
+    transform: translateY(-5px);
+}
+
+.contact-form button:active {
+    transform: translateY(0);
+}
+
+/* Animation for Form */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+        /* Footer Section */
+footer {
+    background: linear-gradient(135deg, #3C3D37, #1E201E);
+    color: #ECDFCC;
+    padding: 40px 0;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    animation: fadeInUp 1.5s ease;
+}
+
+footer p {
+    font-size: 18px;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+footer .footer-icons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+footer .footer-icons a {
+    margin: 0 15px;
+    font-size: 24px;
+    color: #f39c12;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+footer .footer-icons a:hover {
+    color: #e67e22;
+    transform: scale(1.2);
+}
+
+footer .footer-icons a:active {
+    transform: scale(1);
+}
+
+/* Floating Icons Animation */
+.footer-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+    opacity: 0.2;
+}
+
+.footer-bg div {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: float 8s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.footer-bg div:nth-child(1) {
+    width: 200px;
+    height: 200px;
+    top: 10%;
+    left: 20%;
+    animation-duration: 12s;
+}
+
+.footer-bg div:nth-child(2) {
+    width: 150px;
+    height: 150px;
+    top: 50%;
+    left: 60%;
+    animation-duration: 10s;
+}
+
+.footer-bg div:nth-child(3) {
+    width: 100px;
+    height: 100px;
+    top: 80%;
+    left: 30%;
+    animation-duration: 14s;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-20px) rotate(180deg);
+    }
+    100% {
+        transform: translateY(0px) rotate(360deg);
+    }
+}
+.con{
+    font-size: 50px;
+            margin-bottom: 5px;
+            color: #f39c12;
+            animation: fadeIn 2s ease-in;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px #bdc3c7;
+}
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <h1>Shashank Jaiswal</h1>
+            <ul>
+                <li><a href="#about">About Me</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="section" id="about">
+        <div class="floating-bg">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="about-me">
+            <h2>About Me</h2>
+            <br>
+            <p>Hello! I’m Shashank Jaiswal, a passionate software developer and aspiring AI engineer. With a strong foundation in computer science and experience in technologies like Django, Python, and AI development, I aim to build innovative solutions that make a difference.
+
+I enjoy tackling complex challenges, whether developing web applications or working on intelligent systems. When I’m not coding, I love editing and listening to music, which fuels my creativity. Feel free to explore my portfolio to learn more about my work and skills!</p>
+        </div>
+    </section>
+
+    <section class="section" id="skills">
+        <h2>Skills</h2>
+        <br>
+        <br>
+        <div class="skill-box">
+    <div class="skill" data-skill="90%">Python</div>
+    <div class="skill" data-skill="85%">Web development</div>
+    <div class="skill" data-skill="70%">DBMS (mysql,sql)</div>
+    <div class="skill" data-skill="75%">Data Structure Algorithm</div>
+    <!-- Add more skill cards as needed -->
+</div>
+            <!-- Add more skill cards as needed -->
+        </div>
+    </section>
+
+    <section class="section" id="projects">
+        <h2>Projects</h2>
+	<div class="project-section">
+            <div class="project-container">
+                <div class="project">
+                <div class="project-name">AR Footwear</div>
+                <div class="project-details">
+                    <img src="p1.png" alt="Project 1 Image">
+                    <p>This is the description of Project 1. It showcases the core features and functionality.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="project-container">
+            <div class="project">
+                <div class="project-name">Restaurant Management System</div>
+                <div class="project-details">
+                    <img src="p2.webp" alt="Project 2 Image">
+                    <p>This is the description of Project 2. It's a comprehensive overview of the project.</p>
+                </div>
+            </div>
+            </div>
+
+            <div class="project-container">
+                <div class="project">
+                    <div class="project-name">Weather Chatbot (AI)</div>
+                    <div class="project-details">
+                        <img src="p2.webp" alt="Project 2 Image">
+                        <p>This is the description of Project 2. It's a comprehensive overview of the project.</p>
+                    </div>
+                </div>
+                </div>
+
+                <div class="project-container">
+                    <div class="project">
+                    <div class="project-name">Image Recognition (AI)</div>
+                    <div class="project-details">
+                        <img src="p1.png" alt="Project 1 Image">
+                        <p>This is the description of Project 1. It showcases the core features and functionality.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+     <center>
+    <h1 class="con">Contact Me</h1>
+</center>
+<section id="contact" class="contact-section">
+    
+    <form class="contact-form">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Your Name">
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Your Email">
+        </div>
+        <div class="form-group">
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="5" placeholder="Your Message"></textarea>
+        </div>
+        <button type="submit">Send Message</button>
+    </form>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-bg">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <p>&copy; 2024 Shashank's Portfolio</p>
+    <div class="footer-icons">
+        <a href="#"><i class="fa fa-facebook"></i></a>
+        <a href="#"><i class="fa fa-twitter"></i></a>
+        <a href="#"><i class="fa fa-linkedin"></i></a>
+    </div>
+    <div class="footer-contact"></div>
+        <p>Email:  shashankjaiswal0981@gmail.com</p>
+        <p>Phone:  +91 88491 57732</p>
+        <p>Address:  Ahmedabad, India.</p>
+    </div>
+</footer>
+
+</body>
+</html>
