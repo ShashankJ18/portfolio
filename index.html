@@ -26,44 +26,18 @@
       overflow-x:hidden;
       position:relative;
     }
-
     /* Floating Background Blobs */
-    .float-layer{
-      position:fixed;
-      inset:0;
-      z-index:-1;
-      overflow:hidden;
-      pointer-events:none;
-      filter:blur(40px) saturate(1.1);
-    }
-    .blob{
-      position:absolute;
-      width:420px;height:420px;
-      border-radius:50%;
-      opacity:0.35;
-      animation: drift 60s linear infinite, bob 10s ease-in-out infinite;
-    }
+    .float-layer{position:fixed; inset:0; z-index:-1; overflow:hidden; pointer-events:none; filter:blur(40px) saturate(1.1);}
+    .blob{position:absolute; width:420px;height:420px; border-radius:50%; opacity:0.35; animation: drift 60s linear infinite, bob 10s ease-in-out infinite;}
     .blob:nth-child(1){top:-100px;left:-80px;background:#B6B09F;}
     .blob:nth-child(2){bottom:-140px;right:-60px;background:#EAE4D5;animation-delay:-15s;}
     .blob:nth-child(3){top:40%;left:65%;background:#F2F2F2;animation-delay:-30s;}
     .blob:nth-child(4){top:65%;left:15%;background:#ffffff;animation-delay:-20s;}
-    @keyframes drift{
-      0%{transform:translate(0,0) rotate(0);}
-      50%{transform:translate(40px,-30px) rotate(180deg);}
-      100%{transform:translate(0,0) rotate(360deg);}
-    }
-    @keyframes bob{
-      0%,100%{transform:translateY(0);}
-      50%{transform:translateY(-20px);}
-    }
+    @keyframes drift{0%{transform:translate(0,0) rotate(0);}50%{transform:translate(40px,-30px) rotate(180deg);}100%{transform:translate(0,0) rotate(360deg);}}
+    @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-20px);}}
 
     /* Header */
-    header{
-      position:sticky;top:0;z-index:50;
-      background:#ffffffcc;
-      backdrop-filter:blur(6px);
-      box-shadow:var(--shadow);
-    }
+    header{position:sticky;top:0;z-index:50;background:#ffffffcc;backdrop-filter:blur(6px);box-shadow:var(--shadow);}
     nav{max-width:1200px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;}
     .brand{font-weight:800;font-size:20px;color:var(--accent);}
     .nav-links{list-style:none;display:flex;gap:18px;}
@@ -76,14 +50,7 @@
     .subtitle{color:var(--muted);margin-bottom:20px;}
 
     /* Chat */
-    .chat-wrap{
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      overflow:hidden;
-      transition:max-height .5s ease, transform .3s ease;
-      max-height:70px;
-      background:var(--card);
-    }
+    .chat-wrap{border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;transition:max-height .5s ease, transform .3s ease;max-height:70px;background:var(--card);}
     .chat-wrap:hover{max-height:650px;transform:translateY(-2px);}
     .chat-head{padding:16px 18px;display:flex;justify-content:space-between;align-items:center;background:var(--card);cursor:pointer;}
     .chat-body{background:var(--light);}
@@ -214,8 +181,6 @@
     <h2 class="title">Achievements</h2>
     <div class="card"><p>NASA Space Apps 2024 – 2nd Runner-up (Local) & Global Nominee.</p></div>
   </section>
-
-  <!-- Footer -->
   <footer>
     <div>&copy; 2025 Shashank's Portfolio</div>
     <div class="links"><a href="https://www.linkedin.com/in/jaiswalshashank18">LinkedIn</a> <a href="https://github.com/ShashankJ18">GitHub</a></div>
@@ -223,34 +188,58 @@
   </footer>
 
 <script>
-const API_URL="http://127.0.0.1:7860/ask";
-const messagesEl=document.getElementById('messages');
-const typingEl=document.getElementById('typing');
-const inputEl=document.getElementById('query');
-const sendBtn=document.getElementById('sendBtn');
+const API_URL = "https://huggingface.co/spaces/shashank0981/shashank-chatbot-backend"; // HF Space API
+const messagesEl = document.getElementById('messages');
+const typingEl = document.getElementById('typing');
+const inputEl = document.getElementById('query');
+const sendBtn = document.getElementById('sendBtn');
 
-function addMsg(txt,who='bot'){
-  const div=document.createElement('div');
-  div.className='msg '+who;
-  div.innerHTML=(who==='user'?"<b>You:</b> ":"<b>Shashank:</b> ")+txt;
+function addMsg(txt, who='bot') {
+  const div = document.createElement('div');
+  div.className = 'msg ' + who;
+  div.innerHTML = (who==='user' ? "<b>You:</b> " : "<b>Shashank:</b> ") + txt;
   messagesEl.appendChild(div);
-  messagesEl.scrollTop=messagesEl.scrollHeight;
+  messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
-function fillAndSend(txt){inputEl.value=txt;sendQuery();}
+function fillAndSend(txt) {
+  inputEl.value = txt;
+  sendQuery();
+}
 
-inputEl.addEventListener('keydown',e=>{if(e.key==="Enter")sendQuery();});
+inputEl.addEventListener('keydown', e => {
+  if(e.key === "Enter") sendQuery();
+});
 
-async function sendQuery(){
-  const q=inputEl.value.trim();if(!q)return;
-  addMsg(q,'user');inputEl.value='';
-  typingEl.style.display='block';sendBtn.disabled=true;
-  try{
-    const res=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({query:q})});
-    const data=await res.json();typingEl.style.display='none';sendBtn.disabled=false;
-    addMsg(data.answer||"⚠️ No response",'bot');
-  }catch{typingEl.style.display='none';sendBtn.disabled=false;addMsg("⚠️ Error connecting",'bot');}
+async function sendQuery() {
+  const q = inputEl.value.trim();
+  if (!q) return;
+  addMsg(q, 'user');
+  inputEl.value = '';
+  typingEl.style.display = 'block';
+  sendBtn.disabled = true;
+
+  try {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({data: [q]})
+    });
+
+    const data = await res.json();
+    const answer = data.data && data.data[0] ? data.data[0] : "⚠️ No response";
+
+    typingEl.style.display = 'none';
+    sendBtn.disabled = false;
+    addMsg(answer, 'bot');
+  } catch (err) {
+    typingEl.style.display = 'none';
+    sendBtn.disabled = false;
+    addMsg("⚠️ Error connecting", 'bot');
+    console.error(err);
+  }
 }
 </script>
+
 </body>
 </html>
